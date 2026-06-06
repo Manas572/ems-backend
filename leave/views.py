@@ -8,9 +8,13 @@ from rest_framework import status
 from employee.permissions import IsAdmin
 from .models import Leave
 from .serializers import SeeLeaveSerializer,LeaveSerializer,LeaveStatusSerializer
+from rest_framework.throttling import UserRateThrottle
 # Create your views here.
+class ApiThrottle(UserRateThrottle):
+    rate = "10/min"
 #create leave
 class CreateLeave(CreateAPIView):
+    throttle_classes=[ApiThrottle]
     permission_classes = [IsAuthenticated]
     queryset = Leave.objects.all()
     serializer_class = LeaveSerializer
@@ -22,12 +26,14 @@ class CreateLeave(CreateAPIView):
         
 #get pending leave
 class SeeLeaves(ListAPIView):
+    throttle_classes=[ApiThrottle]
     permission_classes=[IsAdmin]
     queryset=Leave.objects.filter(statustype=Leave.StatusType.PENDING)
     serializer_class=SeeLeaveSerializer
 
 #see yourleave
 class SeeYourLeave(ListAPIView):
+    throttle_classes=[ApiThrottle]
     serializer_class = SeeLeaveSerializer
     permission_classes=[IsAuthenticated]
     def get_queryset(self):
@@ -41,6 +47,8 @@ class SeeYourLeave(ListAPIView):
 
 #update leave
 class UpdateLeave(UpdateAPIView):
+    throttle_classes=[ApiThrottle]
     permission_classes = [IsAdmin]
-    queryset = Leave.objects.all()
     serializer_class = LeaveStatusSerializer
+    def get_queryset(self):
+        return Leave.objects.filter(statustype=Leave.StatusType.PENDING)

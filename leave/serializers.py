@@ -22,9 +22,8 @@ class LeaveSerializer(serializers.ModelSerializer):
         today=timezone.localdate()
         if start_date and end_date and end_date < start_date:
             raise serializers.ValidationError({"error": "End date cannot be before start date."})
-        
-        if start_date<today:
-            raise serializers.ValidationError({"error":"Start date is before today"})
+        if start_date and start_date < today:
+            raise serializers.ValidationError({"error": "Start date is before today"})
         
         try:
             employee = self.context["request"].user.employee
@@ -33,7 +32,6 @@ class LeaveSerializer(serializers.ModelSerializer):
 
         if employee.is_active== Employee.Status.INACTIVE:
             raise serializers.ValidationError({"error":"You are Inactive"})
-        
         existing=Leave.objects.filter(employee=employee,start_date=start_date,end_date=end_date,statustype=Leave.StatusType.PENDING).exists()
 
         if existing:
@@ -45,3 +43,11 @@ class LeaveStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leave
         fields = ["statustype"]
+
+    def validate_statustype(self, value):
+        if value not in [
+            Leave.StatusType.APPROVED,
+            Leave.StatusType.REJECTED
+        ]:
+            raise serializers.ValidationError("Status can only be Approved or Rejected.")
+        return value

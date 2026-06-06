@@ -19,6 +19,7 @@ from django.urls import path
 from employee.views import EmpGetList, EmpCreate,EmpUpdate,EmpDelete
 from attendance.views import CheckIn,CheckOut,GetAllAttendance,GetYourAttendance
 from leave.views import CreateLeave,UpdateLeave,SeeLeaves,SeeYourLeave
+from payslip.views import SeeYourPaySlip,SeePaySlip,CreatePaySlip,PaySlipDetail
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -30,12 +31,20 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('allemployees/', EmpGetList.as_view(), name='All employees'),
-    path('employee/create/', EmpCreate.as_view(), name='Create Employee'),
-    path('employee/update/<int:pk>/', EmpUpdate.as_view(), name='Update Employee'),
-    path('employee/delete/<int:pk>/', EmpDelete.as_view(), name='Delete Employee'),
-    path('attendance/checkin/', CheckIn.as_view(), name='checkin Employee'),
-    path('attendance/checkout/', CheckOut.as_view(), name='checkout Employee'),
-    path('attendance/allAttendance/', GetAllAttendance.as_view(), name='All Attendance'),
-    path('attendance/EmpAttendance/', GetYourAttendance.as_view(), name='Employee Attendance'),
+    path('allemployees/', EmpGetList.as_view(), name='All_employees'),
+    path('employee/create/', EmpCreate.as_view(), name='Create_Employee'),
+    path('employee/update/<int:pk>/', EmpUpdate.as_view(), name='Update_Employee'),
+    path('employee/delete/<int:pk>/', EmpDelete.as_view(), name='Delete_Employee'),
+    path('attendance/checkin/', CheckIn.as_view(), name='checkin_Employee'),
+    path('attendance/checkout/', CheckOut.as_view(), name='checkout_Employee'),
+    path('attendance/allAttendance/', GetAllAttendance.as_view(), name='All_Attendance'),
+    path('attendance/EmpAttendance/', GetYourAttendance.as_view(), name='Employee_Attendance'),
+    path('leave/CreateLeave/', CreateLeave.as_view(), name='Create_Leave'),
+    path('leave/SeeLeaves/', SeeLeaves.as_view(), name='See_Leave '),
+    path('leave/SeeYourLeaves/', SeeYourLeave.as_view(), name='See_Your_Leave '),
+    path('leave/update/<int:pk>/', UpdateLeave.as_view(), name='Update_Leave '),
+    path('payslip/Createpayslip/', CreatePaySlip.as_view(), name='Create_Payslip'),
+    path('payslip/Seepayslip/', SeePaySlip.as_view(), name='See_Payslip '),
+    path('payslip/SeeYourPayslip/', SeeYourPaySlip.as_view(), name='See_Your_Payslip '),
+    path('payslip/detail/<int:pk>/', PaySlipDetail.as_view(), name='Payslip_Detail '),
 ]

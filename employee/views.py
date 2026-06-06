@@ -5,9 +5,14 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Employee,User
 from .serializers import EmployeeSerializer,EmployeeCreateSerializer
 from .permissions import IsAdmin
+from rest_framework.throttling import UserRateThrottle
+
+class ApiThrottle(UserRateThrottle):
+    rate = "10/min"
 # Create your views here.
 # create
 class EmpCreate(CreateAPIView):
+    throttle_classes=[ApiThrottle]
     serializer_class=EmployeeCreateSerializer
     permission_classes=[IsAdmin]
     queryset=User.objects.all()
@@ -15,6 +20,7 @@ class EmpCreate(CreateAPIView):
 
 #get
 class EmpGetList(ListAPIView):
+    throttle_classes=[ApiThrottle]
     serializer_class = EmployeeSerializer
     permission_classes=[IsAdmin]
     def get_queryset(self):
@@ -27,6 +33,7 @@ class EmpGetList(ListAPIView):
 
 #get 1
 class EmployeeSearchView(ListAPIView):
+    throttle_classes=[ApiThrottle]
     queryset = Employee.objects.filter(is_deleted=False)
     permission_classes=[IsAuthenticated]
     serializer_class = EmployeeSerializer
@@ -34,12 +41,14 @@ class EmployeeSearchView(ListAPIView):
     search_fields = ["firstname", "lastname", "email"]
 
 class EmployeeDetail(RetrieveAPIView):
+    throttle_classes=[ApiThrottle]
     queryset = Employee.objects.filter(is_deleted=False)
     permission_classes=[IsAuthenticated]
     serializer_class = EmployeeSerializer
 
 #update
 class EmpUpdate(UpdateAPIView):
+    throttle_classes=[ApiThrottle]
     queryset=Employee.objects.filter(is_deleted=False)
     permission_classes=[IsAdmin]
     serializer_class=EmployeeSerializer
@@ -47,6 +56,7 @@ class EmpUpdate(UpdateAPIView):
 
 #delete
 class EmpDelete(DestroyAPIView):
+    throttle_classes=[ApiThrottle]
     serializer_class = EmployeeSerializer
     permission_classes=[IsAdmin]
     queryset = Employee.objects.filter(is_deleted=False)

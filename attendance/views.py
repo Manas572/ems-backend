@@ -5,12 +5,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle
 from .models import Attendance
 from employee.models import Employee
 from rest_framework.generics import RetrieveAPIView,ListAPIView
 from .serializers import AttendanceSerializer
 from employee.permissions import IsAdmin
+
+class ApiThrottle(UserRateThrottle):
+    rate = "10/min"
+
 class CheckIn(APIView):
+    throttle_classes=[ApiThrottle]
     permission_classes = [IsAuthenticated]
     def post(self, request):
         try:
@@ -55,7 +61,7 @@ class CheckIn(APIView):
 
 class CheckOut(APIView):
     permission_classes = [IsAuthenticated]
-
+    throttle_classes=[ApiThrottle]
     def post(self, request):
         try:
             employee = request.user.employee
@@ -105,6 +111,7 @@ class CheckOut(APIView):
         )
     
 class GetYourAttendance(ListAPIView):
+    throttle_classes=[ApiThrottle]
     permission_classes=[IsAuthenticated]
     serializer_class=AttendanceSerializer
     def get_queryset(self):
@@ -116,6 +123,7 @@ class GetYourAttendance(ListAPIView):
         return queryset
 
 class GetAllAttendance(ListAPIView):
+    throttle_classes=[ApiThrottle]
     permission_classes=[IsAdmin]
     queryset=Attendance.objects.all().order_by("-created_at")
     serializer_class=AttendanceSerializer
