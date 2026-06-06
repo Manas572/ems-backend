@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 import inngest.django
 from employee.views import EmpGetList, EmpCreate,EmpUpdate,EmpDelete
-from attendance.views import CheckIn,CheckOut,GetAllAttendance,GetYourAttendance
+from attendance.views import CheckIn,CheckOut,GetAllAttendance,GetYourAttendance,Hi
 from leave.views import CreateLeave,UpdateLeave,SeeLeaves,SeeYourLeave
 from payslip.views import SeeYourPaySlip,SeePaySlip,CreatePaySlip,PaySlipDetail
 from attendance.inngest_functions import auto_checkout_cron
@@ -33,6 +33,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('hello/', Hi.as_view()),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('allemployees/', EmpGetList.as_view(), name='All_employees'),
