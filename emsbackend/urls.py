@@ -16,13 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-import inngest.django
+#import inngest.django
 from employee.views import EmpGetList, EmpCreate,EmpUpdate,EmpDelete
 from attendance.views import CheckIn,CheckOut,GetAllAttendance,GetYourAttendance,Hi
 from leave.views import CreateLeave,UpdateLeave,SeeLeaves,SeeYourLeave
 from payslip.views import SeeYourPaySlip,SeePaySlip,CreatePaySlip,PaySlipDetail
-from attendance.inngest_functions import auto_checkout_cron
-from .inngest_client import inngest_client
+#from attendance.inngest_functions import auto_checkout_cron
+#from .inngest_client import inngest_client
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -52,5 +52,5 @@ urlpatterns = [
     path('payslip/Seepayslip/', SeePaySlip.as_view(), name='See_Payslip '),
     path('payslip/SeeYourPayslip/', SeeYourPaySlip.as_view(), name='See_Your_Payslip '),
     path('payslip/detail/<int:pk>/', PaySlipDetail.as_view(), name='Payslip_Detail '),
-    inngest.django.serve(inngest_client, [auto_checkout_cron]),
+   # inngest.django.serve(inngest_client, [auto_checkout_cron]),
 ]
