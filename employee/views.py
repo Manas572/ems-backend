@@ -8,7 +8,7 @@ from .permissions import IsAdmin
 from rest_framework.throttling import UserRateThrottle
 
 class ApiThrottle(UserRateThrottle):
-    rate = "10/min"
+    rate = "50/min"
 # Create your views here.
 # create
 class EmpCreate(CreateAPIView):

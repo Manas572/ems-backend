@@ -8,7 +8,7 @@ from .serializers import SeePaySlipSerializer,PaySlipSerializer
 from rest_framework.throttling import UserRateThrottle
 # Create your views here.
 class ApiThrottle(UserRateThrottle):
-    rate = "10/min"
+    rate = "50/min"
 #create payslip
 class CreatePaySlip(CreateAPIView):
     throttle_classes=[ApiThrottle]

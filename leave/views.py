@@ -11,7 +11,7 @@ from .serializers import SeeLeaveSerializer,LeaveSerializer,LeaveStatusSerialize
 from rest_framework.throttling import UserRateThrottle
 # Create your views here.
 class ApiThrottle(UserRateThrottle):
-    rate = "10/min"
+    rate = "50/min"
 #create leave
 class CreateLeave(CreateAPIView):
     throttle_classes=[ApiThrottle]

@@ -13,7 +13,12 @@ from .serializers import AttendanceSerializer
 from employee.permissions import IsAdmin
 
 class ApiThrottle(UserRateThrottle):
-    rate = "10/min"
+    rate = "50/min"
+
+class Hi(APIView):
+    throttle_classes=[ApiThrottle]
+    def get(self,request):
+        return Response("hello")
 
 class CheckIn(APIView):
     throttle_classes=[ApiThrottle]

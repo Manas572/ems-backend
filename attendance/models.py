@@ -6,10 +6,10 @@ class Attendance(models.Model):
         ABSENT = "ABSENT", "Absent"
         LATE = "LATE", "Late"
     class DayType(models.TextChoices):
-        FULL_DAY = "Full Day", "Full Day"
-        THREE_QUARTER_DAY = "Three Quarter Day", "Three Quarter Day"
-        HALF_DAY = "Half Day", "Half Day"
-        SHORT_DAY = "Short Day", "Short Day"
+        FULL_DAY = "Full_Day", "Full Day"
+        THREE_QUARTER_DAY = "Three_Quarter_Day", "Three Quarter Day"
+        HALF_DAY = "Half_Day", "Half Day"
+        SHORT_DAY = "Short_Day", "Short Day"
 
     employee = models.ForeignKey(
         "employee.Employee",
