@@ -28,7 +28,7 @@ class CreateLeave(CreateAPIView):
 class SeeLeaves(ListAPIView):
     throttle_classes=[ApiThrottle]
     permission_classes=[IsAdmin]
-    queryset=Leave.objects.filter(statustype=Leave.StatusType.PENDING)
+    queryset=Leave.objects.filter(statustype=Leave.StatusType.PENDING).order_by("-created_at")
     serializer_class=SeeLeaveSerializer
 
 #see yourleave

@@ -146,6 +146,9 @@ REST_FRAMEWORK = {
         "user": "1000/day",
         "anon": "300/day",
     }
+    ,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,
 }
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

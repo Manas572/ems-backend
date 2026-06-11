@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 #import inngest.django
-from employee.views import EmpGetList, EmpCreate,EmpUpdate,EmpDelete
+from employee.views import EmpGetList, EmpCreate,EmpUpdate,EmpDelete,EmployeeSearchView
 from attendance.views import CheckIn,CheckOut,GetAllAttendance,GetYourAttendance,Hi
 from leave.views import CreateLeave,UpdateLeave,SeeLeaves,SeeYourLeave
 from payslip.views import SeeYourPaySlip,SeePaySlip,CreatePaySlip,PaySlipDetail
@@ -37,6 +37,7 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('allemployees/', EmpGetList.as_view(), name='All_employees'),
+    path('list/', EmployeeSearchView.as_view(), name='employee-list'),
     path('employee/create/', EmpCreate.as_view(), name='Create_Employee'),
     path('employee/update/<int:pk>/', EmpUpdate.as_view(), name='Update_Employee'),
     path('employee/delete/<int:pk>/', EmpDelete.as_view(), name='Delete_Employee'),

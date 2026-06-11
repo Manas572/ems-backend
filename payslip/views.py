@@ -20,7 +20,7 @@ class CreatePaySlip(CreateAPIView):
 class SeePaySlip(ListAPIView):
     throttle_classes=[ApiThrottle]
     permission_classes=[IsAdmin]
-    queryset=Payslip.objects.all()
+    queryset=Payslip.objects.all().order_by("-created_at")
     serializer_class=SeePaySlipSerializer
 
 class SeeYourPaySlip(ListAPIView):
