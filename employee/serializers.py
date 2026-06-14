@@ -5,6 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from django.utils import timezone
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -73,3 +74,29 @@ class EmployeeCreateSerializer(serializers.Serializer):
         employee = Employee.objects.create(user=user,**validated_data)
 
         return employee
+    
+    def validate(self, attrs):
+        basicsalary=attrs.get("basicsalary")
+        allowances=attrs.get("allowances")
+        deductions=attrs.get("deductions")
+        joining_date=attrs.get("joining_date")
+
+        if basicsalary < 0:
+            raise serializers.ValidationError({"error": "Basic salary cannot be negative"} )
+        
+        if allowances < 0:
+            raise serializers.ValidationError({"error": "allowances cannot be negative"} )
+        
+        if deductions < 0:
+            raise serializers.ValidationError({"error": "deductions cannot be negative"} )
+        
+        if basicsalary + allowances < deductions:
+            raise serializers.ValidationError({"error": "Deductions cannot exceed total earnings"})
+        
+        today = timezone.localdate()
+
+        if joining_date> today:
+            raise serializers.ValidationError({"error":"Joining date cannot be before today"})
+        
+        return attrs
+        
